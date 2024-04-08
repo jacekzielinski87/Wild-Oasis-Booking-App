@@ -1,5 +1,6 @@
 import styled, {css} from "styled-components";
 
+// eslint-disable-next-line no-unused-vars
 const sizes = {
   small: css`
     font-size: 1.2rem;
@@ -20,6 +21,7 @@ const sizes = {
   `,
 };
 
+// eslint-disable-next-line no-unused-vars
 const variations = {
   primary: css`
     color: var(--color-brand-50);
