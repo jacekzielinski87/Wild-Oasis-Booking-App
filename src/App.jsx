@@ -9,6 +9,7 @@ import Account from './pages/Account';
 import Login from './pages/Login';
 import PageNotFound from './pages/PageNotFound';
 import GlobalStyles from "./styles/GlobalStyles";
+import AppLayout from "./ui/AppLayout";
 
 
 
@@ -23,8 +24,9 @@ function App() {
     <GlobalStyles/>
     <BrowserRouter>
       <Routes>
+        <Route element={<AppLayout/>}>
         <Route index element ={<Navigate replace to='dashboard'/>}
-        />
+         />
         <Route path = 'dashboard' element={<Dashboard/>}
         />
         <Route path = 'bookings' element={<Bookings/>}
@@ -37,6 +39,9 @@ function App() {
         />
         <Route path = 'account' element={<Account/>}
         />
+
+        </Route>
+        
         <Route path='login' element={<Login/>}
         />
         <Route path ='*' element={<PageNotFound/>}
