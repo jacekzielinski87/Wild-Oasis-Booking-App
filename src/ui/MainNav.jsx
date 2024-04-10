@@ -1,12 +1,21 @@
 import styled from "styled-components";
+import { NavLink } from "react-router-dom";
+import { FaHome } from "react-icons/fa";
+import { SlCalender} from "react-icons/sl";
+import { HiOutlineHomeModern } from "react-icons/hi2";
+import { HiOutlineUsers } from "react-icons/hi";
+import { CiSettings } from "react-icons/ci";
 
+
+// eslint-disable-next-line no-unused-vars
 const NavList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
 `;
 
-const Link = styled.a`
+// eslint-disable-next-line no-unused-vars
+const StyledNavLink = styled(NavLink)`
   &:link,
   &:visited {
     display: flex;
@@ -44,3 +53,40 @@ const Link = styled.a`
     color: var(--color-brand-600);
   }
 `;
+
+function MainNav () {
+  return(
+  <nav>
+    <NavList>
+      <li><StyledNavLink to="/dashboard">
+        <FaHome/>
+        <span>Home</span>
+          </StyledNavLink>
+      </li>
+
+      <li><StyledNavLink to="/bookings">
+        <SlCalender/>
+        <span>Bookings</span></StyledNavLink>
+      </li>
+
+      <li><StyledNavLink to="/cabins">
+        <HiOutlineHomeModern/>
+        <span>Cabins</span></StyledNavLink>
+      </li>
+
+      <li><StyledNavLink to="/users">
+        <HiOutlineUsers/>
+        <span>Users</span></StyledNavLink>
+      </li>
+
+      <li><StyledNavLink to="/settings">
+        <CiSettings/>
+        <span>Settings</span></StyledNavLink>
+      </li>
+    </NavList>
+  </nav>
+  );
+}
+
+
+export default MainNav;
