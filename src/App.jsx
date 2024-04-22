@@ -13,6 +13,7 @@ import GlobalStyles from "./styles/GlobalStyles";
 import AppLayout from "./ui/AppLayout";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
+import { StyleSheetManager } from "styled-components";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,8 +24,12 @@ const queryClient = new QueryClient({
 });
 
 
+
+
 function App() {
+
   return (
+    <StyleSheetManager>
     <QueryClientProvider client = {queryClient}>
       <ReactQueryDevtools initialIsOpen = {false} />
 
@@ -74,7 +79,7 @@ function App() {
       }
     }}/>
     </QueryClientProvider>
-    
+    </StyleSheetManager>
     );
 }
 
