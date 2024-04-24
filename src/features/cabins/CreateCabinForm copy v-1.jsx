@@ -6,10 +6,9 @@ import Button from "../../ui/Button";
 import FileInput from "../../ui/FileInput";
 import Textarea from "../../ui/Textarea";
 import toast from "react-hot-toast";
-import { createCabin } from "../../services/apiCabins";
+import { createEditCabin } from "../../services/apiCabins";
 import { QueryClient, useQueryClient } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
-
 
 
 const FormRow = styled.div`
@@ -48,12 +47,14 @@ const Error = styled.span`
   color: var(--color-red-700);
 `;
 
-function CreateCabinForm() {
+function CreateCabinForm({cabinToEdit = {}}) {
+  const {id: editId, ...editValues} = cabinToEdit;
+  const isEditSession = Boolean(editId);
 
   const queryClient = useQueryClient();
 
   const {mutate, isLoading: isCreating} = useMutation ({
-      mutationFn: createCabin,
+      mutationFn: createEditCabin,
       onSuccess: () => {
       toast.success('New Cabin created');
       QueryClient.invalidateQueries({queryKey: ["cabins"] });
@@ -62,7 +63,9 @@ function CreateCabinForm() {
       onError: (err) => toast.error(err.message),  
   });
 
-  const { register, handleSubmit, reset, getValues, formState} = useForm();
+  const { register, handleSubmit, reset, getValues, formState} = useForm({
+    defaultValues:isEditSession ? editValues : {},
+  });
   const {errors} = formState;
   console.log(errors);
 
@@ -124,7 +127,7 @@ function CreateCabinForm() {
       <FormRow>
         <Label htmlFor="image">Cabin photo</Label>
         <FileInput id="image" accept="image/*" type="file" {...register ('image', {
-          required: "This field is required",
+          required:  isEditSession ? false : "This field is required",
         })}  />
       </FormRow>
 
@@ -133,7 +136,7 @@ function CreateCabinForm() {
         <Button variation="secondary" type="reset">
           Cancel
         </Button>
-        <Button disabled = {isCreating}>Add Cabin</Button>
+        <Button disabled = {isCreating}>{isEditSession ? 'Edit Cabin' : 'Create New Cabin'}</Button>
       </FormRow>
     </Form>
   );
