@@ -5,10 +5,9 @@ import Form from "../../ui/Form";
 import Button from "../../ui/Button";
 import FileInput from "../../ui/FileInput";
 import Textarea from "../../ui/Textarea";
-import toast from "react-hot-toast";
-import { createEditCabin } from "../../services/apiCabins";
-import { QueryClient, useQueryClient } from "@tanstack/react-query";
-import { useMutation } from "@tanstack/react-query";
+import { useCreateCabin } from "./useCreateCabin";
+import { useEditCabin } from "./useEditCabin";
+
 
 
 const FormRow = styled.div`
@@ -50,29 +49,28 @@ const Error = styled.span`
 function CreateCabinForm({cabinToEdit = {}}) {
   const {id: editId, ...editValues} = cabinToEdit;
   const isEditSession = Boolean(editId);
-
-  const queryClient = useQueryClient();
-
-  const {mutate, isLoading: isCreating} = useMutation ({
-      mutationFn: createEditCabin,
-      onSuccess: () => {
-      toast.success('New Cabin created');
-      QueryClient.invalidateQueries({queryKey: ["cabins"] });
-      reset();
-    },
-      onError: (err) => toast.error(err.message),  
-  });
-
   const { register, handleSubmit, reset, getValues, formState} = useForm({
     defaultValues:isEditSession ? editValues : {},
   });
   const {errors} = formState;
   console.log(errors);
 
-
+  const {isCreating, createCabin} = useCreateCabin();
+  const {isEditing, EditCabin} = useEditCabin();
+  const isWorking = isCreating || isEditing;
 
   function onSubmit(data) {
-    mutate({...data, image: data.image[0] });
+    const image = typeof data.image === "string" ? data.image : data.image[0]
+    if(isEditSession) EditCabin({newCabin:{...data, image}, id:editId}, {
+      onSuccess: (data) => {
+        reset()
+        },
+      }
+    );
+    else createCabin ({...data, image: image }), {
+      onSuccess: (data) => {
+        reset()},
+    };
   }
 
   function onError(errors) {
@@ -136,7 +134,7 @@ function CreateCabinForm({cabinToEdit = {}}) {
         <Button variation="secondary" type="reset">
           Cancel
         </Button>
-        <Button disabled = {isCreating}>{isEditSession ? 'Edit Cabin' : 'Create New Cabin'}</Button>
+        <Button disabled = {isWorking}>{isEditSession ? 'Edit Cabin' : 'Create New Cabin'}</Button>
       </FormRow>
     </Form>
   );
