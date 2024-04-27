@@ -80,7 +80,7 @@ function CreateCabinForm() {
     <Form onSubmit={handleSubmit(onSubmit, onError)}>
       <FormRow>
         <Label htmlFor="name">Cabin name</Label>
-        <Input type="text" id="name" {...register ('name', {
+        <Input type="text" id="name" disabled={isCreating} {...register ('name', {
           required: "This field is required",
         })} 
         />
@@ -107,7 +107,7 @@ function CreateCabinForm() {
 
       <FormRow>
         <Label htmlFor="discount">Discount</Label>
-        <Input type="number" id="discount" defaultValue={0} {...register ('discount', {
+        <Input type="number" id="discount" disabled={isCreating} defaultValue={0} {...register ('discount', {
           required: "This field is required",
           validate: (value) =>  value <= getValues().regularPrice || "Discount should be less than regular price",
         })} />
@@ -115,7 +115,7 @@ function CreateCabinForm() {
 
       <FormRow>
         <Label htmlFor="description">Description for website</Label>
-        <Textarea type="number" id="description" defaultValue="" {...register('description', {
+        <Textarea type="number" id="description" defaultValue="" disabled={isCreating} {...register('description', {
           required: "This field is required"
         })} />
         

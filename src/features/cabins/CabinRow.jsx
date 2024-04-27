@@ -63,8 +63,8 @@ function CabinRow({cabin}) {
   }
 
 
-  const 
-  {id: cabinId, 
+  const {
+    id: cabinId, 
     name, 
     maxCapacity, 
     regularPrice, 
@@ -96,5 +96,5 @@ function CabinRow({cabin}) {
   )
 }
 
-export default CabinRow
+export default CabinRow;
 

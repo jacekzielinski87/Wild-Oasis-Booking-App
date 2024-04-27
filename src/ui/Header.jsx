@@ -13,7 +13,7 @@ const StyledHeader = styled.header`
 function Header() {
     return (
         <StyledHeader>
-            HEADER
+            
         </StyledHeader>
     )
 }
