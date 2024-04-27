@@ -7,7 +7,7 @@ import { updateSetting as updateSettingApi } from "../../services/apiSettings";
 export function useUpdateSetting() {
     const QueryClient = useQueryClient();
 
-const {mutate: updateSetting, isLoading: isUpdating} = useMutation ({
+const {mutate:updateSetting, isLoading: isUpdating} = useMutation ({
     mutationFn: updateSettingApi,
     onSuccess: () => {
     toast.success('Setting succesfully edited');
@@ -15,4 +15,6 @@ const {mutate: updateSetting, isLoading: isUpdating} = useMutation ({
 },
     onError: (err) => toast.error(err.message),  
 });
+
+return {isUpdating, updateSetting};
 }
